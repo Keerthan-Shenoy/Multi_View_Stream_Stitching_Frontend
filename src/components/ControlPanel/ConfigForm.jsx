@@ -75,7 +75,6 @@ export function ConfigForm({ config, setConfig, layouts, isRunning, streams }) {
           >
             <option value="hls">HLS Only</option>
             <option value="srt">SRT Only</option>
-            <option value="both">Both (HLS + SRT)</option>
           </select>
         </div>
 
