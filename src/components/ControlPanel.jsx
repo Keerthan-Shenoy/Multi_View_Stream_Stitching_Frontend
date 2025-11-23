@@ -117,6 +117,7 @@ function ControlPanel({ streams, stitchStatus, setStitchStatus }) {
         setConfig={setConfig}
         layouts={layouts}
         isRunning={stitchStatus?.isRunning}
+        streams={streams}
       />
 
       <Controls 

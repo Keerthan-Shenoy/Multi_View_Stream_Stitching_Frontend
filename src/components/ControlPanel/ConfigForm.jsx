@@ -2,7 +2,9 @@ import React from 'react';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { styles } from '../../styles/controlPanelStyles';
 
-export function ConfigForm({ config, setConfig, layouts, isRunning }) {
+export function ConfigForm({ config, setConfig, layouts, isRunning, streams }) {
+  const enabledStreams = streams ? streams.filter(s => s.enabled) : [];
+  
   return (
     <div style={styles.configCard}>
       <h3 style={styles.sectionTitle}>Processing Configuration</h3>
@@ -74,6 +76,22 @@ export function ConfigForm({ config, setConfig, layouts, isRunning }) {
             <option value="hls">HLS Only</option>
             <option value="srt">SRT Only</option>
             <option value="both">Both (HLS + SRT)</option>
+          </select>
+        </div>
+
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Audio Source</label>
+          <select
+            value={config.audioStreamId || ''}
+            onChange={(e) => setConfig({ ...config, audioStreamId: e.target.value || null })}
+            disabled={isRunning}
+          >
+            <option value="">No Audio</option>
+            {enabledStreams.map(stream => (
+              <option key={stream.id} value={stream.id}>
+                {stream.name} (Position {stream.position})
+              </option>
+            ))}
           </select>
         </div>
       </div>

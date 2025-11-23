@@ -38,5 +38,6 @@ export function getInitialStitchConfig() {
     framerate: 30,
     bitrate: '4000k',
     outputFormat: 'hls',
+    audioStreamId: null,
   };
 }
