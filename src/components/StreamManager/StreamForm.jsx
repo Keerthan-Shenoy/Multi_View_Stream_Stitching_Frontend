@@ -35,18 +35,6 @@ export function StreamForm({ formData, setFormData, onSubmit, onCancel }) {
           </div>
 
           <div style={styles.formGroup}>
-            <label style={styles.label}>Grid Position (0-15)</label>
-            <input
-              type="number"
-              value={formData.position}
-              onChange={(e) => setFormData({ ...formData, position: parseInt(e.target.value) })}
-              min="0"
-              max="15"
-              required
-            />
-          </div>
-
-          <div style={styles.formGroup}>
             <label style={styles.checkboxLabel}>
               <input
                 type="checkbox"

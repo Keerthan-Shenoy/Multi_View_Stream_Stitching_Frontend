@@ -18,9 +18,6 @@ export function StreamCard({ stream, onTest, onToggle, onDelete }) {
           <h4 style={styles.streamName}>{stream.name}</h4>
           <p style={styles.streamUrl}>{stream.url}</p>
           <div style={styles.streamMeta}>
-            <span style={styles.metaItem}>
-              <span style={styles.metaLabel}>Position:</span> {stream.position}
-            </span>
             {stream.stats?.resolution && (
               <span style={styles.metaItem}>
                 <span style={styles.metaLabel}>Resolution:</span> {stream.stats.resolution}

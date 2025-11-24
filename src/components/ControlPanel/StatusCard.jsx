@@ -1,9 +1,15 @@
 import React from 'react';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import { getLayoutString } from '../../utils/validation';
 import { styles } from '../../styles/controlPanelStyles';
 
 export function StatusCard({ stitchStatus, enabledStreams, totalStreams, config }) {
+  // Calculate layout based on enabled streams if not running, otherwise use the running config
+  const displayLayout = stitchStatus?.isRunning 
+    ? stitchStatus?.config?.layout 
+    : getLayoutString(enabledStreams);
+    
   return (
     <div style={styles.statusCard}>
       <div style={styles.statusHeader}>
@@ -24,7 +30,7 @@ export function StatusCard({ stitchStatus, enabledStreams, totalStreams, config 
         </div>
         <div style={styles.statItem}>
           <span style={styles.statLabel}>Layout</span>
-          <span style={styles.statValue}>{stitchStatus?.config?.layout || config.layout}</span>
+          <span style={styles.statValue}>{displayLayout}</span>
         </div>
         <div style={styles.statItem}>
           <span style={styles.statLabel}>Resolution</span>

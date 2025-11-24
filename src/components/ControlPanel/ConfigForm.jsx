@@ -1,9 +1,11 @@
 import React from 'react';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { getLayoutString } from '../../utils/validation';
 import { styles } from '../../styles/controlPanelStyles';
 
 export function ConfigForm({ config, setConfig, layouts, isRunning, streams }) {
   const enabledStreams = streams ? streams.filter(s => s.enabled) : [];
+  const calculatedLayout = getLayoutString(enabledStreams.length);
   
   return (
     <div style={styles.configCard}>
@@ -12,17 +14,19 @@ export function ConfigForm({ config, setConfig, layouts, isRunning, streams }) {
       <div style={styles.configGrid}>
         <div style={styles.formGroup}>
           <label style={styles.label}>Layout Grid</label>
-          <select
-            value={config.layout}
-            onChange={(e) => setConfig({ ...config, layout: e.target.value })}
-            disabled={isRunning}
-          >
-            {layouts.map(layout => (
-              <option key={layout.id} value={layout.id}>
-                {layout.name} ({layout.maxStreams} sources)
-              </option>
-            ))}
-          </select>
+          <div style={{
+            padding: '10px',
+            backgroundColor: '#f5f5f5',
+            borderRadius: '4px',
+            border: '1px solid #ddd',
+            fontSize: '14px',
+            color: '#333'
+          }}>
+            {calculatedLayout} ({enabledStreams.length} {enabledStreams.length === 1 ? 'stream' : 'streams'})
+          </div>
+          <small style={{fontSize: '12px', color: '#666', marginTop: '4px', display: 'block'}}>
+            Auto-calculated based on enabled streams
+          </small>
         </div>
 
         <div style={styles.formGroup}>
@@ -88,7 +92,7 @@ export function ConfigForm({ config, setConfig, layouts, isRunning, streams }) {
             <option value="">No Audio</option>
             {enabledStreams.map(stream => (
               <option key={stream.id} value={stream.id}>
-                {stream.name} (Position {stream.position})
+                {stream.name}
               </option>
             ))}
           </select>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import { fetchStitchStatus, fetchLayouts, startStitch, stopStitch, captureSnapshot } from '../utils/api';
-import { getInitialStitchConfig } from '../utils/validation';
+import { getInitialStitchConfig, calculateGridLayout } from '../utils/validation';
 import { getStreamCounts, copyToClipboard } from '../utils/formatters';
 import { styles } from '../styles/controlPanelStyles';
 import { StatusCard } from './ControlPanel/StatusCard';
@@ -44,7 +44,17 @@ function ControlPanel({ streams, stitchStatus, setStitchStatus }) {
   async function handleStartStitch() {
     setLoading(true);
     try {
-      const data = await startStitch(config);
+      // Calculate layout based on enabled streams
+      const enabledStreams = streams.filter(s => s.enabled);
+      const layoutData = calculateGridLayout(enabledStreams.length);
+      
+      // Add calculated layout to config (only send layout string for backend compatibility)
+      const configWithLayout = { 
+        ...config, 
+        layout: layoutData.layout
+      };
+      
+      const data = await startStitch(configWithLayout);
       toast.success('Processing started successfully!');
       setStitchStatus(data);
     } catch (error) {
